@@ -1,3 +1,8 @@
+---
+layout: default
+title: Privacy Policy
+---
+
 # Privacy Policy for Grav Ball
 
 **Last updated: August 2, 2026**
