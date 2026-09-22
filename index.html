@@ -4,19 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kivora LLC — independent game studio</title>
-<meta name="description" content="Independent game studio. Makers of Grav Ball, a physics arcade game where you draw gravity to fly.">
+<meta name="description" content="Independent game studio in Arkansas. Makers of Grav Ball, a physics arcade game where you draw gravity, and Shiftword, a word-slide puzzle.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --void:#0B0D1A;
-    --void-mid:#12162B;
-    --wire:#3DE0E0;
-    --well:#E84CC4;
-    --coin:#FFC24B;
+    --panel:#101426;
     --ink:#EEF3FF;
     --ink-dim:#8792B0;
+    --line:rgba(135,146,176,.18);
+
+    /* per-game accents — a new game picks one (or brings its own) */
+    --wire:#3DE0E0;   /* Grav Ball */
+    --well:#E84CC4;
+    --coin:#FFC24B;
+    --leaf:#68B97C;   /* Shiftword */
+
+    --accent:var(--wire);
+
     --display:"Chakra Petch",system-ui,sans-serif;
     --body:"IBM Plex Sans",system-ui,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,monospace;
@@ -31,88 +38,121 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  a{color:var(--wire);text-decoration:none;border-bottom:1px solid rgba(61,224,224,.3)}
-  a:hover{border-bottom-color:var(--wire)}
-  a:focus-visible,button:focus-visible{outline:2px solid var(--wire);outline-offset:3px}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+  a:hover{border-bottom-color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
   .wrap{width:min(1080px,92vw);margin-inline:auto}
 
-  /* eyebrow labels use the game's own vocabulary, not decorative numbering */
   .eyebrow{
     font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
     text-transform:uppercase;color:var(--ink-dim);
   }
 
-  /* ---------- hero ---------- */
-  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column}
-  #sim{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .hero-top{position:relative;z-index:2;padding:28px 0}
+  /* ---------- top bar ---------- */
+  .bar{position:relative;z-index:3;padding:26px 0}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px}
   .mark{
     font-family:var(--display);font-weight:700;font-size:.95rem;
-    letter-spacing:.28em;text-transform:uppercase;color:var(--ink);
+    letter-spacing:.28em;text-transform:uppercase;color:var(--ink);border-bottom:none;
   }
+  .nav{display:flex;gap:22px}
+  .nav a{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim);border-bottom:none;
+  }
+  .nav a:hover{color:var(--ink)}
+  .mark{white-space:nowrap}
+  @media (max-width:560px){
+    .bar{padding:20px 0}
+    .mark{font-size:.78rem;letter-spacing:.18em}
+    .nav{gap:14px}
+    .nav a{font-size:.67rem;letter-spacing:.1em}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:74svh;display:flex;flex-direction:column}
+  #stars{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.85}
   .hero-body{
-    position:relative;z-index:2;margin-top:auto;padding-bottom:clamp(48px,9vh,96px);
-    pointer-events:none;
+    position:relative;z-index:2;margin-top:auto;
+    padding-bottom:clamp(48px,9vh,104px);
   }
   .hero-body h1{
     font-family:var(--display);font-weight:600;
-    font-size:clamp(2.6rem,8.2vw,6rem);line-height:.98;
-    letter-spacing:-.02em;max-width:16ch;
+    font-size:clamp(2.5rem,7.6vw,5.4rem);line-height:1;
+    letter-spacing:-.02em;max-width:17ch;
   }
   .hero-body h1 em{font-style:normal;color:var(--wire)}
   .lede{
-    margin-top:22px;max-width:44ch;color:var(--ink-dim);
+    margin-top:22px;max-width:46ch;color:var(--ink-dim);
     font-size:clamp(1rem,1.6vw,1.12rem);
   }
-  .hint{
-    margin-top:30px;display:inline-flex;align-items:center;gap:10px;
-    font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--well);
-  }
-  .hint::before{
-    content:"";width:26px;height:1px;background:var(--well);
-    animation:draw 2.6s ease-in-out infinite;transform-origin:left;
-  }
-  @keyframes draw{0%,100%{transform:scaleX(.2)}50%{transform:scaleX(1)}}
 
   /* ---------- sections ---------- */
-  section{padding:clamp(72px,11vh,132px) 0}
-  .rule{height:1px;background:linear-gradient(90deg,rgba(61,224,224,.35),transparent)}
-
+  section{padding:clamp(64px,9vh,112px) 0}
+  .rule{height:1px;background:linear-gradient(90deg,rgba(135,146,176,.32),transparent)}
   h2{
     font-family:var(--display);font-weight:600;
-    font-size:clamp(1.9rem,4.4vw,3.1rem);line-height:1.05;
+    font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.05;
     letter-spacing:-.01em;margin-top:14px;
   }
-  .prose{margin-top:20px;max-width:56ch;color:var(--ink-dim)}
-  .prose + .prose{margin-top:14px}
+  .prose{margin-top:18px;max-width:58ch;color:var(--ink-dim)}
+  .prose + .prose{margin-top:12px}
+
+  /* ---------- game cards ---------- */
+  .games{margin-top:48px;display:grid;gap:28px}
+  .game{
+    border:1px solid var(--line);background:var(--panel);
+    display:grid;gap:0;grid-template-columns:1fr;
+  }
+  @media (min-width:820px){
+    .game{grid-template-columns:minmax(0,340px) minmax(0,1fr)}
+  }
+  .demo{
+    position:relative;min-height:260px;border-bottom:1px solid var(--line);
+    background:#0A0C18;display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  @media (min-width:820px){
+    .demo{border-bottom:none;border-right:1px solid var(--line)}
+  }
+  .demo canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .demo-tag{
+    position:absolute;left:14px;bottom:12px;z-index:2;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim);
+  }
+  .game-body{padding:clamp(24px,3.4vw,38px)}
+  .game-body h3{
+    font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3vw,2.1rem);
+    line-height:1.1;margin-top:10px;
+  }
+  .game-body p{margin-top:14px;color:var(--ink-dim);max-width:52ch}
 
   .specs{
-    margin-top:44px;display:grid;gap:1px;background:rgba(135,146,176,.18);
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    border:1px solid rgba(135,146,176,.18);
+    margin-top:26px;display:grid;gap:1px;background:var(--line);
+    grid-template-columns:repeat(auto-fit,minmax(112px,1fr));
+    border:1px solid var(--line);
   }
-  .spec{background:var(--void);padding:22px 20px}
-  .spec dt{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
+  .spec{background:var(--panel);padding:16px 16px}
+  .spec dt{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;
     text-transform:uppercase;color:var(--ink-dim)}
-  .spec dd{font-family:var(--display);font-weight:600;font-size:1.9rem;
-    margin-top:8px;color:var(--ink)}
-  .spec:nth-child(2) dd{color:var(--wire)}
-  .spec:nth-child(3) dd{color:var(--well)}
-  .spec:nth-child(4) dd{color:var(--coin)}
+  .spec dd{font-family:var(--display);font-weight:600;font-size:1.55rem;
+    margin-top:6px;color:var(--accent)}
 
-  .status{
-    margin-top:40px;display:inline-block;padding:12px 20px;
-    border:1px solid rgba(255,194,75,.4);
-    font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--coin);
+  .actions{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .badge{
+    display:inline-block;padding:11px 18px;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);border-bottom-width:1px;
   }
+  a.badge:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+  .badge.quiet{border-color:var(--line);color:var(--ink-dim)}
 
   /* ---------- contact ---------- */
   .contact-grid{
-    margin-top:40px;display:grid;gap:34px;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    margin-top:38px;display:grid;gap:30px;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   }
   .contact-grid h3{
     font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
@@ -120,11 +160,28 @@
   }
   .contact-grid p{margin-top:10px;font-size:1.05rem}
 
-  footer{padding:38px 0 56px;border-top:1px solid rgba(135,146,176,.16)}
+  footer{padding:38px 0 56px;border-top:1px solid var(--line)}
   .foot{
     display:flex;flex-wrap:wrap;gap:16px 28px;justify-content:space-between;
     font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--ink-dim);
   }
+  .foot a{color:var(--ink-dim);border-bottom-color:var(--line)}
+  .foot a:hover{color:var(--ink)}
+
+  /* ---------- Shiftword demo grid ---------- */
+  .sw{position:relative;z-index:1;display:grid;gap:7px}
+  .sw-row{display:flex;gap:7px;cursor:pointer}
+  .sw-tile{
+    width:46px;height:46px;display:grid;place-items:center;
+    font-family:var(--display);font-weight:700;font-size:1.25rem;
+    background:#171B2E;color:var(--ink);border:1px solid rgba(135,146,176,.22);
+    border-radius:8px;transition:background .28s ease,border-color .28s ease,color .28s ease;
+  }
+  .sw-row.solved .sw-tile{
+    background:color-mix(in srgb,var(--leaf) 26%,#171B2E);
+    border-color:color-mix(in srgb,var(--leaf) 70%,transparent);
+  }
+  @media (max-width:380px){ .sw-tile{width:40px;height:40px;font-size:1.05rem} }
 
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -134,39 +191,124 @@
 </head>
 <body>
 
-<header class="hero">
-  <!-- Signature element: the page's hero IS the game's core mechanic.
-       Drag to draw a gravity well and the falling ball is pulled along it. -->
-  <canvas id="sim" aria-label="Interactive demonstration: drag to draw a gravity well and a falling ball curves along it."></canvas>
-
-  <div class="hero-top wrap">
-    <div class="mark">Kivora LLC</div>
-  </div>
-
-  <div class="hero-body wrap">
-    <h1>We make games that <em>bend the rules</em> of gravity</h1>
-    <p class="lede">An independent studio of one, building small games with unique worlds and soundtracks.</p>
-    <p class="hint">Drag anywhere to pull the ball</p>
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="/">Kivora LLC</a>
+    <nav class="nav">
+      <a href="#games">Games</a>
+      <a href="/support.html">Support</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
   </div>
 </header>
 
+<div class="hero">
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="hero-body wrap">
+    <h1>Small games, made <em>one at a time</em></h1>
+    <p class="lede">An independent studio of one in Arkansas, building games with their own worlds, soundtracks and rules. No two are alike.</p>
+  </div>
+</div>
+
 <div class="rule"></div>
 
-<section id="grav-ball">
+<section id="games">
   <div class="wrap">
-    <p class="eyebrow">Our first game</p>
-    <h2>Grav Ball</h2>
-    <p class="prose">You can't steer the ball. You can only change the world it falls through. Drag your finger to draw a gravity well, and the ball is pulled along the line you leave behind.</p>
-    <p class="prose">Fly as far as you can across seven unique worlds — a neon skyline, a sunset coastline, a snowbound ridge, an erupting volcano, a glowing crystal shaft, and a coral reef where the sharks are bigger than you are. Or work through 36 unique puzzles where every hazard keeps moving while you plan.</p>
+    <p class="eyebrow">What we make</p>
+    <h2>Games</h2>
 
-    <dl class="specs">
-      <div class="spec"><dt>Worlds</dt><dd>7</dd></div>
-      <div class="spec"><dt>Puzzle levels</dt><dd>36</dd></div>
-      <div class="spec"><dt>Soundtrack</dt><dd>12</dd></div>
-      <div class="spec"><dt>Unlockables</dt><dd>45</dd></div>
-    </dl>
+    <div class="games">
 
-    <p class="status">Coming soon to iOS and Android</p>
+      <!-- ================= Grav Ball ================= -->
+      <article class="game" id="grav-ball" style="--accent:var(--wire)">
+        <div class="demo">
+          <canvas id="gravsim" aria-label="Interactive demonstration: drag to draw a gravity well and a falling ball curves along it."></canvas>
+          <span class="demo-tag">Drag to pull the ball</span>
+        </div>
+        <div class="game-body">
+          <p class="eyebrow">Physics arcade &middot; iOS &amp; Android</p>
+          <h3>Grav Ball</h3>
+          <p>You can't steer the ball. You can only change the world it falls through. Drag your finger to draw a gravity well, and the ball is pulled along the line you leave behind.</p>
+          <p>Fly as far as you can across seven worlds — a neon skyline, a sunset coastline, a snowbound ridge, an erupting volcano, a crystal shaft, a coral reef where the sharks are bigger than you are — or work through 36 puzzles where every hazard keeps moving while you plan.</p>
+
+          <dl class="specs">
+            <div class="spec"><dt>Worlds</dt><dd>7</dd></div>
+            <div class="spec"><dt>Puzzles</dt><dd>36</dd></div>
+            <div class="spec"><dt>Tracks</dt><dd>12</dd></div>
+            <div class="spec"><dt>Unlockables</dt><dd>45</dd></div>
+          </dl>
+
+          <div class="actions">
+            <span class="badge">Out now on iOS &amp; Android</span>
+            <!-- TODO: paste the store URLs and delete this comment's wrapper
+            <a class="badge" href="APP_STORE_URL_HERE">App Store</a>
+            <a class="badge" href="GOOGLE_PLAY_URL_HERE">Google Play</a>
+            -->
+            <a class="badge quiet" href="/support.html#grav-ball">Support</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= Shiftword ================= -->
+      <article class="game" id="shiftword" style="--accent:var(--leaf)">
+        <div class="demo">
+          <div class="sw" id="swdemo" aria-label="Demonstration: rows of letters slide until every line spells a word."></div>
+          <span class="demo-tag">Tap a row to slide it</span>
+        </div>
+        <div class="game-body">
+          <p class="eyebrow">Word puzzle &middot; iOS &amp; Android</p>
+          <h3>Shiftword</h3>
+          <p>Every row and every column has to spell a word. Slide a row sideways or a column up and down — letters wrap around the edge — until the whole grid reads in both directions.</p>
+          <p>Three grid sizes and a hundred levels each, three shared puzzles every day, and hidden second solutions to hunt down. Then there's Battle Shift: a ten-by-ten board, three minutes, and an opponent working the same letters.</p>
+
+          <dl class="specs">
+            <div class="spec"><dt>Sizes</dt><dd>3</dd></div>
+            <div class="spec"><dt>Levels</dt><dd>300</dd></div>
+            <div class="spec"><dt>Daily</dt><dd>3</dd></div>
+            <div class="spec"><dt>Opponents</dt><dd>4</dd></div>
+          </dl>
+
+          <div class="actions">
+            <span class="badge">Coming soon to iOS &amp; Android</span>
+            <a class="badge quiet" href="/support.html#shiftword">Support</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= Add a game =================
+      Copy this block, give it an id, a name, and an accent colour
+      (--wire, --well, --coin, --leaf, or any hex). The demo panel is
+      optional: drop a still image or an <img> in place of the canvas.
+
+      <article class="game" id="next-game" style="--accent:var(--coin)">
+        <div class="demo"><img src="/img/next-game.png" alt=""></div>
+        <div class="game-body">
+          <p class="eyebrow">Genre &middot; Platforms</p>
+          <h3>Game name</h3>
+          <p>One paragraph on what the player actually does.</p>
+          <dl class="specs">
+            <div class="spec"><dt>Label</dt><dd>00</dd></div>
+          </dl>
+          <div class="actions">
+            <span class="badge">In development</span>
+            <a class="badge quiet" href="/support.html">Support</a>
+          </div>
+        </div>
+      </article>
+      ================================================ -->
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="studio">
+  <div class="wrap">
+    <p class="eyebrow">The studio</p>
+    <h2>Kivora</h2>
+    <p class="prose">Kivora LLC is a one-person studio in Arkansas. Every game is built end to end here — code, art, sound and the puzzles themselves — which is why they stay small and why each one gets its own look.</p>
+    <p class="prose">Games are free, carry ads, and never ask for an account. Nothing you do in them leaves your phone.</p>
   </div>
 </section>
 
@@ -178,16 +320,16 @@
     <h2>Support &amp; enquiries</h2>
     <div class="contact-grid">
       <div>
-        <h3>Buisness</h3>
-        <p><a href="mailto:contact@kivorastudios.online">contact@kivorastudios.online</a></p>
-      </div>
-      <div>
-        <h3>Player Support</h3>
+        <h3>Player support</h3>
         <p><a href="mailto:support@kivorastudios.online">support@kivorastudios.online</a></p>
       </div>
       <div>
-        <h3>Privacy</h3>
-        <p><a href="/privacy.html">Privacy policy</a></p>
+        <h3>Business</h3>
+        <p><a href="mailto:contact@kivorastudios.online">contact@kivorastudios.online</a></p>
+      </div>
+      <div>
+        <h3>Help pages</h3>
+        <p><a href="/support.html">Support</a> &middot; <a href="/privacy.html">Privacy</a></p>
       </div>
     </div>
   </div>
@@ -196,63 +338,99 @@
 <footer>
   <div class="wrap foot">
     <span>&copy; 2026 Kivora LLC</span>
+    <span><a href="/support.html">Support</a> &middot; <a href="/privacy.html">Privacy</a></span>
     <span>Arkansas, USA</span>
   </div>
 </footer>
 
 <script>
+/* ---------------- hero starfield ---------------- */
 (function () {
-  const canvas = document.getElementById('sim');
+  const canvas = document.getElementById('stars');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, pts = [];
 
-  let W = 0, H = 0, dpr = 1;
+  function seed() {
+    pts = [];
+    const n = Math.round(Math.min(150, (W * H) / 9000));
+    for (let i = 0; i < n; i++) {
+      pts.push({
+        x: ((i * 9301 + 49297) % 233280) / 233280,
+        y: ((i * 4021 + 15731) % 233280) / 233280,
+        r: 0.6 + ((i * 7919) % 100) / 100 * 1.1,
+        s: 0.1 + ((i * 6151) % 100) / 100 * 0.25
+      });
+    }
+  }
   function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(devicePixelRatio || 1, 2);
     W = canvas.clientWidth; H = canvas.clientHeight;
     canvas.width = W * dpr; canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed();
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pts) {
+      const y = reduce ? p.y * H : (p.y * H + t * 0.012 * p.s * H) % H;
+      ctx.beginPath();
+      ctx.arc(p.x * W, y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(238,243,255,' + (0.10 + p.s * 0.5) + ')';
+      ctx.fill();
+    }
   }
   resize();
-  window.addEventListener('resize', resize);
+  addEventListener('resize', resize);
+  if (reduce) { draw(0); return; }
+  (function frame(now) { draw(now); requestAnimationFrame(frame); })(0);
+})();
 
-  // Physics mirrors the game: constant gravity, plus acceleration along a
-  // drawn well's direction whenever the ball is within its radius.
-  const GRAV = 430, R = 9, WELL_W = 46, STRENGTH = 2300, MAX_V = 900;
-  let ball = spawn();
-  let wells = [];          // {a:{x,y}, b:{x,y}, life}
-  let drag = null;
-  let trail = [];
+/* ---------------- Grav Ball: draw a gravity well ---------------- */
+(function () {
+  const canvas = document.getElementById('gravsim');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function spawn() {
-    return { x: W * 0.12, y: H * 0.16, vx: 120 + Math.random() * 60, vy: 0 };
+  let W = 0, H = 0, GRAV = 430, STRENGTH = 2300, MAX_V = 900, R = 8, WELL_W = 38;
+  function resize() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Scale the physics to the panel so it reads the same at any size.
+    GRAV = H * 1.15; STRENGTH = H * 6.2; MAX_V = H * 2.6;
+    R = Math.max(6, H * 0.028); WELL_W = Math.max(26, H * 0.13);
   }
+  resize();
+  addEventListener('resize', resize);
+
+  let ball = spawn(), wells = [], drag = null, trail = [];
+  function spawn() { return { x: W * 0.12, y: H * 0.14, vx: W * 0.28 + Math.random() * 40, vy: 0 }; }
 
   function pointer(e) {
     const r = canvas.getBoundingClientRect();
     const p = e.touches ? e.touches[0] : e;
     return { x: p.clientX - r.left, y: p.clientY - r.top };
   }
-  function down(e) { drag = { a: pointer(e), b: pointer(e) }; }
-  function move(e) {
-    if (!drag) return;
-    drag.b = pointer(e);
-    if (e.cancelable) e.preventDefault();
-  }
+  function down(e) { demoed = true; drag = { a: pointer(e), b: pointer(e) }; }
+  function move(e) { if (!drag) return; drag.b = pointer(e); if (e.cancelable) e.preventDefault(); }
   function up() {
     if (drag) {
       const dx = drag.b.x - drag.a.x, dy = drag.b.y - drag.a.y;
-      if (Math.hypot(dx, dy) > 24) wells.push({ a: drag.a, b: drag.b, life: 3.2 });
+      if (Math.hypot(dx, dy) > 18) wells.push({ a: drag.a, b: drag.b, life: 3.2 });
       if (wells.length > 3) wells.shift();
     }
     drag = null;
   }
   canvas.addEventListener('mousedown', down);
-  window.addEventListener('mousemove', move);
-  window.addEventListener('mouseup', up);
+  addEventListener('mousemove', move);
+  addEventListener('mouseup', up);
   canvas.addEventListener('touchstart', down, { passive: true });
   canvas.addEventListener('touchmove', move, { passive: false });
-  window.addEventListener('touchend', up);
+  addEventListener('touchend', up);
 
   function segDist(p, a, b) {
     const abx = b.x - a.x, aby = b.y - a.y;
@@ -269,53 +447,18 @@
       if (segDist(ball, w.a, w.b) <= WELL_W + R) {
         const dx = w.b.x - w.a.x, dy = w.b.y - w.a.y;
         const len = Math.hypot(dx, dy) || 1;
-        const s = STRENGTH * Math.min(1, len / 240) * Math.max(0, Math.min(1, w.life));
+        const s = STRENGTH * Math.min(1, len / (W * 0.5)) * Math.max(0, Math.min(1, w.life));
         ax += dx / len * s; ay += dy / len * s;
       }
     }
     wells = wells.filter(w => w.life > 0);
-
     ball.vx += ax * dt; ball.vy += ay * dt;
     const sp = Math.hypot(ball.vx, ball.vy);
     if (sp > MAX_V) { ball.vx *= MAX_V / sp; ball.vy *= MAX_V / sp; }
     ball.x += ball.vx * dt; ball.y += ball.vy * dt;
-
     trail.push({ x: ball.x, y: ball.y });
-    if (trail.length > 26) trail.shift();
-
-    if (ball.y > H + 80 || ball.x > W + 80 || ball.x < -80) { ball = spawn(); trail = []; }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    // ambient starfield, seeded so it doesn't shimmer
-    ctx.fillStyle = 'rgba(238,243,255,.16)';
-    for (let i = 0; i < 46; i++) {
-      const x = ((i * 9301 + 49297) % 233280) / 233280 * W;
-      const y = ((i * 4021 + 15731) % 233280) / 233280 * H;
-      ctx.fillRect(x, y, 1.4, 1.4);
-    }
-
-    for (const w of wells) drawWell(w, Math.max(0, Math.min(1, w.life)));
-    if (drag) drawWell(drag, 1);
-
-    // trail
-    for (let i = 0; i < trail.length; i++) {
-      const f = i / trail.length;
-      ctx.beginPath();
-      ctx.arc(trail[i].x, trail[i].y, R * f * 0.8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(61,224,224,' + (f * 0.30) + ')';
-      ctx.fill();
-    }
-
-    // ball
-    ctx.beginPath(); ctx.arc(ball.x, ball.y, R + 8, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(61,224,224,.13)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(ball.x, ball.y, R, 0, Math.PI * 2);
-    ctx.fillStyle = '#EEF3FF'; ctx.fill();
-    ctx.beginPath(); ctx.arc(ball.x - 2.5, ball.y - 3, R * 0.36, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fill();
+    if (trail.length > 24) trail.shift();
+    if (ball.y > H + 60 || ball.x > W + 60 || ball.x < -60) { ball = spawn(); trail = []; }
   }
 
   function drawWell(w, alpha) {
@@ -324,42 +467,115 @@
     ctx.lineWidth = WELL_W * 2;
     ctx.beginPath(); ctx.moveTo(w.a.x, w.a.y); ctx.lineTo(w.b.x, w.b.y); ctx.stroke();
     ctx.strokeStyle = 'rgba(232,76,196,' + (0.85 * alpha) + ')';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2.2;
     ctx.beginPath(); ctx.moveTo(w.a.x, w.a.y); ctx.lineTo(w.b.x, w.b.y); ctx.stroke();
   }
 
-  // A gentle demo well so the mechanic is legible before anyone interacts.
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const w of wells) drawWell(w, Math.max(0, Math.min(1, w.life)));
+    if (drag) drawWell(drag, 1);
+    for (let i = 0; i < trail.length; i++) {
+      const f = i / trail.length;
+      ctx.beginPath();
+      ctx.arc(trail[i].x, trail[i].y, R * f * 0.8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(61,224,224,' + (f * 0.30) + ')';
+      ctx.fill();
+    }
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, R + 7, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(61,224,224,.13)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, R, 0, Math.PI * 2);
+    ctx.fillStyle = '#EEF3FF'; ctx.fill();
+  }
+
+  // A gentle demo well, so the mechanic is legible before anyone touches it.
   let demoed = false;
   function demo() {
     if (demoed) return;
-    wells.push({
-      a: { x: W * 0.30, y: H * 0.52 },
-      b: { x: W * 0.66, y: H * 0.30 },
-      life: 2.6
-    });
+    wells.push({ a: { x: W * 0.28, y: H * 0.56 }, b: { x: W * 0.70, y: H * 0.30 }, life: 2.6 });
   }
-  canvas.addEventListener('mousedown', () => { demoed = true; });
-  canvas.addEventListener('touchstart', () => { demoed = true; });
-  setTimeout(demo, 1400);
-  setInterval(() => { if (!demoed) demo(); }, 7000);
-
-  let last = performance.now();
-  function frame(now) {
-    const dt = Math.min((now - last) / 1000, 1 / 30);
-    last = now;
-    step(dt); draw();
-    requestAnimationFrame(frame);
-  }
+  setTimeout(demo, 1200);
+  setInterval(demo, 6500);
 
   if (reduce) {
-    // Static composition: the arc is shown, nothing moves.
-    wells.push({ a: { x: W * 0.30, y: H * 0.52 }, b: { x: W * 0.66, y: H * 0.30 }, life: 1 });
-    ball = { x: W * 0.52, y: H * 0.42, vx: 0, vy: 0 };
+    wells.push({ a: { x: W * 0.28, y: H * 0.56 }, b: { x: W * 0.70, y: H * 0.30 }, life: 1 });
+    ball = { x: W * 0.52, y: H * 0.44, vx: 0, vy: 0 };
     draw();
-  } else {
-    requestAnimationFrame(frame);
+    return;
+  }
+  let last = performance.now();
+  (function frame(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    step(dt); draw(); requestAnimationFrame(frame);
+  })(last);
+})();
+
+/* ---------------- Shiftword: slide rows until every line reads ---------------- */
+(function () {
+  const host = document.getElementById('swdemo');
+  if (!host) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // A symmetric word square: rows and columns both read CAT / AGO / TOE.
+  const TARGET = [['C','A','T'], ['A','G','O'], ['T','O','E']];
+  const grid = TARGET.map(r => r.slice());
+  const offset = [0, 0, 0];          // how far each row is rotated from solved
+  const rows = [];
+
+  for (let r = 0; r < 3; r++) {
+    const row = document.createElement('div');
+    row.className = 'sw-row';
+    row.addEventListener('click', () => { touched = true; slide(r); });
+    for (let c = 0; c < 3; c++) {
+      const t = document.createElement('div');
+      t.className = 'sw-tile';
+      row.appendChild(t);
+    }
+    host.appendChild(row);
+    rows.push(row);
+  }
+
+  function paint() {
+    for (let r = 0; r < 3; r++) {
+      const solved = grid[r].every((ch, c) => ch === TARGET[r][c]);
+      rows[r].classList.toggle('solved', solved && allSolved());
+      for (let c = 0; c < 3; c++) rows[r].children[c].textContent = grid[r][c];
+    }
+  }
+  function allSolved() {
+    return grid.every((row, r) => row.every((ch, c) => ch === TARGET[r][c]));
+  }
+  function slide(r) {
+    grid[r].unshift(grid[r].pop());          // rotate right, letters wrap
+    offset[r] = (offset[r] + 1) % 3;
+    paint();
+  }
+
+  // Start scrambled, then solve itself, pause, scramble again.
+  function scramble() {
+    for (let r = 0; r < 3; r++) {
+      const n = 1 + Math.floor(Math.random() * 2);
+      for (let i = 0; i < n; i++) slide(r);
+    }
+    if (allSolved()) slide(0);
+  }
+
+  let touched = false;
+  scramble();
+  paint();
+
+  if (!reduce) {
+    setInterval(() => {
+      if (touched) return;                    // hands off once someone plays
+      if (allSolved()) { scramble(); return; }
+      const r = offset.findIndex(o => o !== 0);
+      if (r >= 0) slide(r);
+    }, 900);
   }
 })();
 </script>
+</body>
+</html>
+
 </body>
 </html>
