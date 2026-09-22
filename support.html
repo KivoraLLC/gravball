@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — Kivora LLC</title>
+<meta name="description" content="Support for Kivora LLC games, including Grav Ball and Shiftword. How to reach us and answers to common questions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0B0D1A;
+    --panel:#101426;
+    --ink:#EEF3FF;
+    --ink-dim:#8792B0;
+    --line:rgba(135,146,176,.18);
+    --wire:#3DE0E0;
+    --well:#E84CC4;
+    --leaf:#68B97C;
+    --accent:var(--wire);
+    --display:"Chakra Petch",system-ui,sans-serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--void);color:var(--ink);font-family:var(--body);
+    line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+  a:hover{border-bottom-color:var(--accent)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  .wrap{width:min(760px,90vw);margin-inline:auto}
+
+  header.bar{padding:26px 0;border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px}
+  .mark{font-family:var(--display);font-weight:700;font-size:.9rem;
+    letter-spacing:.28em;text-transform:uppercase;color:var(--ink);border-bottom:none}
+  .back{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;
+    text-transform:uppercase;border-bottom:none;color:var(--ink-dim)}
+  .back:hover{color:var(--accent)}
+  .mark{white-space:nowrap}
+  @media (max-width:560px){
+    .mark{font-size:.76rem;letter-spacing:.18em}
+    .back{font-size:.68rem}
+  }
+
+  main{padding:clamp(44px,7vh,80px) 0 92px}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-dim)}
+  h1{font-family:var(--display);font-weight:600;
+    font-size:clamp(2.1rem,5.5vw,3.2rem);line-height:1.05;
+    letter-spacing:-.015em;margin-top:12px}
+  h2{font-family:var(--display);font-weight:600;font-size:1.35rem;
+    margin-top:52px;padding-top:22px;border-top:1px solid var(--line)}
+  h3{font-family:var(--body);font-weight:500;font-size:1rem;margin-top:26px;color:var(--accent)}
+  p{margin-top:14px;color:var(--ink-dim)}
+  p strong{color:var(--ink);font-weight:500}
+  ul{margin-top:14px;padding-left:20px;color:var(--ink-dim)}
+  li{margin-top:7px}
+  li::marker{color:var(--accent)}
+
+  .card{margin-top:34px;padding:24px 26px;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent)}
+  .card p:first-child{margin-top:0}
+
+  .game-nav{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{display:inline-block;padding:9px 16px;border:1px solid var(--line);
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-dim)}
+  .chip:hover{color:var(--ink);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+
+  section.game{scroll-margin-top:20px}
+  #grav-ball{--accent:var(--wire)}
+  #shiftword{--accent:var(--leaf)}
+
+  footer{padding:34px 0 60px;border-top:1px solid var(--line)}
+  .foot{display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:space-between;
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--ink-dim)}
+  .foot a{color:var(--ink-dim);border-bottom-color:var(--line)}
+  .foot a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="/">Kivora LLC</a>
+    <a class="back" href="/">&larr; Back to site</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="eyebrow">Help</p>
+  <h1>Support</h1>
+
+  <p>Kivora is a one-person studio, so support comes straight from the person who made the game. Email <a href="mailto:support@kivorastudios.online">support@kivorastudios.online</a> and you'll usually hear back within a few days.</p>
+
+  <div class="card">
+    <p><strong>When reporting a problem, this helps most:</strong></p>
+    <ul>
+      <li>Which game, and the version number from its Settings screen</li>
+      <li>Your device and OS version — for example "iPhone 13, iOS 26.1"</li>
+      <li>What you did, what happened, and what you expected instead</li>
+      <li>A screenshot or screen recording if the problem is visual</li>
+    </ul>
+  </div>
+
+  <div class="game-nav">
+    <a class="chip" href="#grav-ball">Grav Ball</a>
+    <a class="chip" href="#shiftword">Shiftword</a>
+    <a class="chip" href="#common">Common questions</a>
+  </div>
+
+  <section class="game" id="grav-ball">
+    <h2>Grav Ball</h2>
+    <p>A physics arcade game: drag to draw a gravity well and the ball is pulled along the line you leave behind. Seven worlds, 36 puzzle levels, and things to unlock as you go.</p>
+
+    <h3>My progress disappeared</h3>
+    <p>Grav Ball saves everything on your device and nothing on a server, so progress doesn't follow you to a new phone and can't be restored after the app is deleted. Reinstalling starts fresh.</p>
+
+    <h3>An ad won't load, or the reward didn't arrive</h3>
+    <p>Rewards only land once the video finishes. If it fails to load, check your connection and try again in a minute — ads are served by Google and occasionally have nothing to show. The game never blocks you from playing when an ad is unavailable.</p>
+
+    <h3>Changing my ad privacy choice</h3>
+    <p>In the EEA, UK and Switzerland the game asks whether ads may be personalised. Change your answer in <strong>Settings &rarr; Ad privacy settings</strong>.</p>
+
+    <h3>Starting over</h3>
+    <p><strong>Settings &rarr; Reset progress</strong> clears records, coins and unlocks. It can't be undone.</p>
+  </section>
+
+  <section class="game" id="shiftword">
+    <h2>Shiftword</h2>
+    <p>A word puzzle: slide the rows and columns of a scrambled grid until every row and every column spells a word. Three sizes, 100 levels each, three daily puzzles, and Battle Shift against a bot.</p>
+
+    <h3>How do I play?</h3>
+    <p>Drag a row sideways or a column up and down; letters wrap around the edge. A line turns green once it spells a word, and the puzzle is done when every row and column reads. <strong>How to play</strong> in Settings walks through it again.</p>
+
+    <h3>I'm stuck on a level</h3>
+    <p>Four things help, in increasing order of mercy: <strong>Undo</strong> and <strong>Restart</strong> are free, <strong>How far</strong> tells you how many slides you are from the answer, <strong>Peek</strong> shows the finished grid for a few seconds and adds fifteen seconds to your time, and <strong>Hint</strong> makes the next move for you.</p>
+
+    <h3>What are the trophies?</h3>
+    <p>Most puzzles have more than one valid answer. Reaching a grid other than the one the puzzle was built around counts as a secret solution: it earns a trophy and a free hint. The number on each level is how many exist.</p>
+
+    <h3>The daily puzzle and my streak</h3>
+    <p>Three puzzles arrive each day, one per size, the same for everyone. The day rolls over at midnight in your device's own time zone. Playing at least one daily keeps the streak going; missing a day resets it.</p>
+
+    <h3>My progress disappeared</h3>
+    <p>Like Grav Ball, Shiftword saves everything on your device only. Deleting the app deletes your levels, streak and trophies permanently, and they can't be moved to another phone.</p>
+
+    <h3>Starting over</h3>
+    <p><strong>Settings &rarr; Reset progress</strong> clears levels, daily history and trophies. Your settings stay as they are.</p>
+  </section>
+
+  <section id="common">
+    <h2>Common questions</h2>
+
+    <h3>Do I need an account?</h3>
+    <p>No. Our games have no accounts, no login and no chat. Nothing you do in them is sent to us.</p>
+
+    <h3>Are the games free?</h3>
+    <p>Yes. They're free to download and supported by ads. There is nothing to buy.</p>
+
+    <h3>Why does iOS ask about tracking?</h3>
+    <p>Apple requires that prompt before an app can use your advertising identifier. Decline it and the game plays exactly the same — you'll just see less relevant ads.</p>
+
+    <h3>Are these games suitable for children?</h3>
+    <p>They contain no violence, chat or user-generated content, but they do show ads and are not directed at children under 13. See the <a href="/privacy.html">privacy policy</a> for what the ad network collects.</p>
+
+    <h3>Can you delete my data?</h3>
+    <p>We hold none to delete — nothing leaves your device. Removing the app removes everything, and requests about data held by Google should go to Google using the links in the <a href="/privacy.html">privacy policy</a>.</p>
+
+    <h3>Something else</h3>
+    <p>Email <a href="mailto:support@kivorastudios.online">support@kivorastudios.online</a>. Business and press enquiries go to <a href="mailto:contact@kivorastudios.online">contact@kivorastudios.online</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>&copy; 2026 Kivora LLC</span>
+    <span><a href="/">Home</a> &middot; <a href="/privacy.html">Privacy</a></span>
+    <span>Arkansas, USA</span>
+  </div>
+</footer>
+
+</body>
+</html>
